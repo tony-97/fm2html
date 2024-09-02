@@ -1,0 +1,3 @@
+detect inputs
+//extract excel formulas with ease to import to javascript and html
+// extract and convert excel formulas to the web
