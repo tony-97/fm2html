@@ -125,14 +125,17 @@ class Formulas2Html:
         with open("selected_formulas.js", "w", encoding="utf-8") as f:
             f.write(formulas.format(formulas=self.all_formulas))
 
-    def extract_html_col(self, *, text: str, id: str, sheet_name: str):
-        if text.strip() != "" or id in self.all_formulas[sheet_name]:
+    def extract_html_col(self, *, text: str, cell_id: str, sheet_name: str):
+        if text.strip() != "" or cell_id in self.all_formulas[sheet_name]:
             text = self.escape_chars(text)
-            if id in self.all_formulas[sheet_name]:
-                return output_template.format(id=replacements[id.lower()], text=text)
+            if cell_id in self.all_formulas[sheet_name]:
+                return output_template.format(cell_id=replacements[cell_id.lower()], text=text)
             # FIXME: extract correct values that contains ","
             elif self.is_input(text):
-                return input_template.format(id=replacements[id.lower()], value=text)
+                if styles == output and not allow_input_on_output:
+                    return output_template.format(cell_id=replacements[cell_id.lower()], text=text)
+                else:
+                    return input_template.format(cell_id=replacements[cell_id.lower()], value=text)
             else:
                 return col_template.format(text=text)
         return ""
@@ -147,7 +150,7 @@ class Formulas2Html:
                     id = cell.address.replace("$", "")
                     row_html += self.extract_html_col(
                         text= f"{cell.raw_value}" if cell.raw_value != None else "",
-                        id=id,
+                        cell_id=id,
                         sheet_name=selectedCells.sheet.name,
                     )
                 new_html += (

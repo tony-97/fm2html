@@ -9,14 +9,15 @@ output = {
 }
 
 styles = output
+allow_input_on_output = True
 
 formulas = "export var formulas = {formulas};"
 data = "export var data = {data};"
 row_template = f'<tr class="{styles["row"]}">{{columns}}</tr>'
 col_template = f'<td class="{styles["col"]}">{{text}}</td>'
-#output_template = f'<td class="{styles["col"]}"><span id="{{id}}">{{text}}</span></td>'
-output_template = f'<td class="{styles["col"]}">${{{id}}}</td>'
-input_template = f'<td class="{styles["col"]}"><input type="number" step="any" name="{{id}}" class="xlsx-calc form-control w-full bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-200 p-2 px-1 rounded-md" id="{{id}}" min="0" value="{{value}}" required></td>'
+output_template = f'<td class="{styles["col"]}"><span id="{{cell_id}}">{{text}}</span></td>'
+#output_template = f'<td class="{styles["col"]}">${{{cell_id}}}</td>'
+input_template = f'<td class="{styles["col"]}"><input type="number" step="any" name="{{cell_id}}" class="xlsx-calc form-control w-full bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-200 p-2 px-1 rounded-md" id="{{cell_id}}" min="0" value="{{value}}" required></td>'
 
 html_template = """
 <!doctype html>
